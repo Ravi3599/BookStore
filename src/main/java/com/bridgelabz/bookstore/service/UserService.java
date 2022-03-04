@@ -11,6 +11,7 @@ import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.exception.BookStoreException;
 import com.bridgelabz.bookstore.model.User;
 import com.bridgelabz.bookstore.repositoy.UserRepository;
+import com.bridgelabz.bookstore.util.EmailSenderService;
 import com.bridgelabz.bookstore.util.TokenUtil;
 
 @Service
@@ -18,8 +19,8 @@ public class UserService implements IUserService{
 
 	@Autowired
 	private UserRepository userRepo;
-	/*@Autowired
-	private EmailSenderService mailService;*/
+	@Autowired
+	private EmailSenderService mailService;
 	@Autowired
 	private TokenUtil util;
 	
@@ -27,7 +28,7 @@ public class UserService implements IUserService{
 		User newUser = new User(userdto);
 		userRepo.save(newUser);
 		String token = util.createToken(newUser.getUserID());
-		//mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
+		mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 		return newUser;
 	}
 	public List<User> getAllRecords(){
@@ -51,6 +52,8 @@ public class UserService implements IUserService{
 		else {
 			User newUser = new User(id,dto);
 			userRepo.save(newUser);
+			String token = util.createToken(newUser.getUserID());
+			mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 			return newUser;
 		}
 	}
@@ -74,6 +77,12 @@ public class UserService implements IUserService{
 		else {
 			return user.get();
 		}
+	}
+	public String getToken(String email) {
+		Optional<User> user = userRepo.findByMail(email);
+		String token = util.createToken(user.get().getUserID());
+		mailService.sendEmail(user.get().getEmail(),"Welcome "+user.get().getFirstName(),token);
+		return token;
 	}
 	public User changePassword(String email,String newPassword,String token) {
 		Optional<User> user = userRepo.findByMail(email);

@@ -19,6 +19,8 @@ public interface IUserService {
 	public User userLogin(LoginDTO logindto);
 
 	public User getRecordByEmail(String email);
+	
+	public String getToken(String email);
 
 	public User changePassword(String email,String newPassword,String token);
 

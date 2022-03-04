@@ -70,4 +70,10 @@ public class UserController {
 		ResponseDTO dto = new ResponseDTO("Record for particular email retrieved successfully !",newUser);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
+	@GetMapping("/getToken/{email}")
+	public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
+		String generatedToken = userService.getToken(email);
+		ResponseDTO dto = new ResponseDTO("Token for mail id sent on mail successfully !",generatedToken);
+		return new ResponseEntity(dto,HttpStatus.OK);
+	}
 }
