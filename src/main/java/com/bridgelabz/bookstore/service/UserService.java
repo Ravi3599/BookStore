@@ -28,7 +28,7 @@ public class UserService implements IUserService{
 		User newUser = new User(userdto);
 		userRepo.save(newUser);
 		String token = util.createToken(newUser.getUserID());
-		mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
+		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 		return newUser;
 	}
 	public List<User> getAllRecords(){
@@ -81,7 +81,7 @@ public class UserService implements IUserService{
 	public String getToken(String email) {
 		Optional<User> user = userRepo.findByMail(email);
 		String token = util.createToken(user.get().getUserID());
-		mailService.sendEmail(user.get().getEmail(),"Welcome "+user.get().getFirstName(),token);
+		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+user.get().getFirstName(),token);
 		return token;
 	}
 	public User changePassword(String email,String newPassword,String token) {
@@ -92,8 +92,9 @@ public class UserService implements IUserService{
 			throw new BookStoreException("User doesn't exists");
 		}
 		else {
-			if(token == generatedToken ) {
+			if(token.equals(generatedToken) ) {
 				user.get().setPassword(newPassword);
+				userRepo.save(user.get());
 				return user.get();
 			}
 			else {
