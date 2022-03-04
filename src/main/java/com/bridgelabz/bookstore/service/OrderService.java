@@ -15,7 +15,10 @@ import com.bridgelabz.bookstore.repositoy.BookRepository;
 import com.bridgelabz.bookstore.repositoy.OrderRepository;
 import com.bridgelabz.bookstore.repositoy.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class OrderService implements IOrderService {
 	@Autowired
 	private OrderRepository orderRepo;
@@ -31,6 +34,7 @@ public class OrderService implements IOrderService {
 			if(orderdto.getQuantity() < book.get().getQuantity()) {
 				Order newOrder = new Order(book.get().getPrice(),orderdto.getQuantity(),orderdto.getAddress(),book.get(),user.get(),orderdto.isCancel());
 				orderRepo.save(newOrder);
+				log.info("Order record inserted successfully");
 				return newOrder;
 			}else {
 				throw new BookStoreException("Requested quantity is not available");
@@ -42,6 +46,7 @@ public class OrderService implements IOrderService {
 
 	public List<Order> getAllOrderRecords(){
 		List<Order> orderList =orderRepo.findAll();
+		log.info("ALL order records retrieved successfully");
 		return orderList;
 	}
 
@@ -51,6 +56,7 @@ public class OrderService implements IOrderService {
 			throw new BookStoreException("Order Record doesn't exists");
 		}
 		else {
+			log.info("Order record retrieved successfully for id "+id);
 			return order.get();
 		}
 	}
@@ -67,6 +73,7 @@ public class OrderService implements IOrderService {
 				if(dto.getQuantity() < book.get().getQuantity()) {
 					Order newOrder = new Order(id,book.get().getPrice(),dto.getQuantity(),dto.getAddress(),book.get(),user.get(),dto.isCancel());
 					orderRepo.save(newOrder);
+					log.info("Order record updated successfully for id "+id);
 					return newOrder;
 				}else {
 					throw new BookStoreException("Requested quantity is not available");
@@ -86,6 +93,7 @@ public class OrderService implements IOrderService {
 		}
 		else {
 			orderRepo.deleteById(id);
+			log.info("Order record deleted successfully for id "+id);
 			return order.get();
 		}
 	}

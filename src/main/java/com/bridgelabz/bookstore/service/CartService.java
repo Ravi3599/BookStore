@@ -15,7 +15,10 @@ import com.bridgelabz.bookstore.repositoy.BookRepository;
 import com.bridgelabz.bookstore.repositoy.CartRepository;
 import com.bridgelabz.bookstore.repositoy.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CartService implements ICartService{
 	
 	@Autowired
@@ -31,6 +34,7 @@ public class CartService implements ICartService{
 		if(book.isPresent() && user.isPresent()) {
 			Cart newCart = new Cart(cartdto.getQuantity(),book.get(),user.get());
 			cartRepo.save(newCart);
+			log.info("Cart record inserted successfully");
 			return newCart;
 		}
 		else {
@@ -40,6 +44,7 @@ public class CartService implements ICartService{
 
 	public List<Cart> getAllCartRecords(){
 		List<Cart> 	cartList = cartRepo.findAll();
+		log.info("All cart records retrieved successfully");
 		return cartList;
 	}
 
@@ -49,6 +54,7 @@ public class CartService implements ICartService{
 			throw new BookStoreException("Cart Record doesn't exists");
 		}
 		else {
+			log.info("Cart record retrieved successfully for id "+id);
 			return cart.get();
 		}
 	}
@@ -64,6 +70,7 @@ public class CartService implements ICartService{
 			if(book.isPresent() && user.isPresent()) {
 				Cart newCart = new Cart(id,dto.getQuantity(),book.get(),user.get());
 				cartRepo.save(newCart);
+				log.info("Cart record updated successfully for id "+id);
 				return newCart;
 			}
 			else {
@@ -79,6 +86,7 @@ public class CartService implements ICartService{
 		}
 		else {
 			cartRepo.deleteById(id);
+			log.info("Cart record deleted successfully for id "+id);
 			return cart.get();
 		}
 	}
@@ -91,6 +99,7 @@ public class CartService implements ICartService{
 		else {
 			cart.get().setQuantity(quantity);
 			cartRepo.save(cart.get());
+			log.info("Quantity in cart record updated successfully");
 			return cart.get();
 		}
 	}

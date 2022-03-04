@@ -13,7 +13,10 @@ import com.bridgelabz.bookstore.model.User;
 import com.bridgelabz.bookstore.repositoy.BookRepository;
 import com.bridgelabz.bookstore.repositoy.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BookService implements IBookService {
 	@Autowired
 	private BookRepository bookRepo;
@@ -21,11 +24,13 @@ public class BookService implements IBookService {
 	public Book insertBook(BookDTO bookdto) {
 		Book newBook = new Book(bookdto);
 		bookRepo.save(newBook);
+		log.info("Book record inserted successfully");
 		return newBook;
 	}
 
 	public List<Book> getAllBookRecords(){
 		List<Book> 	bookList =bookRepo.findAll();
+		log.info("All book records retrieved successfully");
 		return bookList;
 	}
 
@@ -35,6 +40,7 @@ public class BookService implements IBookService {
 			throw new BookStoreException("Book Record doesn't exists");
 		}
 		else {
+			log.info("Book record retrieved successfully for id "+id);
 			return book.get();
 		}
 	}
@@ -46,6 +52,7 @@ public class BookService implements IBookService {
 		else {
 			Book newBook = new Book(id,dto);
 			bookRepo.save(newBook);
+			log.info("Book record updated successfully for id "+id);
 			return newBook;
 		}
 		
@@ -57,6 +64,7 @@ public class BookService implements IBookService {
 			throw new BookStoreException("Book doesn't exists");
 		}
 		else {
+			log.info("Book record retrieved successfully for Book Name : "+bookName);
 			return book.get();
 		}
 	}
@@ -68,17 +76,20 @@ public class BookService implements IBookService {
 		}
 		else {
 			bookRepo.deleteById(id);
+			log.info("Book record deleted successfully for id "+id);
 			return book.get();
 		}
 	}
 
 	public List<Book> sortRecordDesc(){
 		List<Book> listOfBooks = bookRepo.sortBooksDesc();
+		log.info("Book records sorted in descending order by bookName successfully");
 		return listOfBooks;
 	}
 
 	public List<Book> sortRecordAsc(){
 		List<Book> listOfBooks = bookRepo.sortBooksAsc();
+		log.info("Book records sorted in ascending order by bookName successfully");
 		return listOfBooks;
 	}
 
@@ -90,6 +101,7 @@ public class BookService implements IBookService {
 		else {
 			book.get().setQuantity(quantity);
 			bookRepo.save(book.get());
+			log.info("Quantity for book record updated successfully for id "+id);
 			return book.get();
 		}
 	}

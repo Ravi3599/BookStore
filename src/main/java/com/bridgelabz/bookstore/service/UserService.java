@@ -18,7 +18,10 @@ import com.bridgelabz.bookstore.repositoy.UserRepository;
 import com.bridgelabz.bookstore.util.EmailSenderService;
 import com.bridgelabz.bookstore.util.TokenUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserService implements IUserService{
 
 	@Autowired
@@ -31,12 +34,14 @@ public class UserService implements IUserService{
 	public User registerUser(UserDTO userdto) {
 		User newUser = new User(userdto);
 		userRepo.save(newUser);
+		log.info("User got registered");
 		String token = util.createToken(newUser.getUserID());
-		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
+		mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 		return newUser;
 	}
 	public List<User> getAllRecords(){
 		List<User> 	userList = userRepo.findAll();
+		log.info("All Record Retrieved Successfully");
 		return userList;
 	}
 	public User getRecord(Integer id){
@@ -45,6 +50,7 @@ public class UserService implements IUserService{
 			throw new BookStoreException("User Record doesn't exists");
 		}
 		else {
+			log.info("Record retrieved successfully for id "+id);
 			return user.get();
 		}
 	}
@@ -56,6 +62,7 @@ public class UserService implements IUserService{
 		else {
 			User newUser = new User(id,dto);
 			userRepo.save(newUser);
+			log.info("User data updated successfully");
 			String token = util.createToken(newUser.getUserID());
 			mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 			return newUser;
@@ -64,7 +71,7 @@ public class UserService implements IUserService{
 	public User userLogin(LoginDTO logindto) {
 		Optional<User> newUser = userRepo.findByMail(logindto.getEmail());
 		if(logindto.getEmail().equals(newUser.get().getEmail()) && logindto.getPassword().equals(newUser.get().getPassword())) {
-			System.out.println("SuccessFully Logged In");
+			log.info("SuccessFully Logged In");
 			return newUser.get();
 		}
 		else {
@@ -79,13 +86,15 @@ public class UserService implements IUserService{
 			throw new BookStoreException("User doesn't exists");
 		}
 		else {
+			log.info("Record retrieved successfully for mail "+email);
 			return user.get();
 		}
 	}
 	public String getToken(String email) {
 		Optional<User> user = userRepo.findByMail(email);
 		String token = util.createToken(user.get().getUserID());
-		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+user.get().getFirstName(),token);
+		mailService.sendEmail(user.get().getEmail(),"Welcome "+user.get().getFirstName(),"Token for changing password is :\n"+token);
+		log.info("Token sent on mail successfully");
 		return token;
 	}
 	public User changePassword(@Valid @RequestBody ChangePasswordDTO dto) {
@@ -99,6 +108,7 @@ public class UserService implements IUserService{
 			if(dto.getToken().equals(generatedToken) ) {
 				user.get().setPassword(dto.getNewPassword());
 				userRepo.save(user.get());
+				log.info("Password changes successfully");
 				return user.get();
 			}
 			else {
