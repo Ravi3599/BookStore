@@ -3,9 +3,13 @@ package com.bridgelabz.bookstore.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.bridgelabz.bookstore.dto.ChangePasswordDTO;
 import com.bridgelabz.bookstore.dto.LoginDTO;
 import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.exception.BookStoreException;
@@ -84,16 +88,16 @@ public class UserService implements IUserService{
 		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+user.get().getFirstName(),token);
 		return token;
 	}
-	public User changePassword(String email,String newPassword,String token) {
-		Optional<User> user = userRepo.findByMail(email);
+	public User changePassword(@Valid @RequestBody ChangePasswordDTO dto) {
+		Optional<User> user = userRepo.findByMail(dto.getEmail());
 		String generatedToken = util.createToken(user.get().getUserID());
 		//mailService.sendEmail(user.get().getEmail(),"Welcome "+user.get().getFirstName(),token);
 		if(user.isEmpty()) {
 			throw new BookStoreException("User doesn't exists");
 		}
 		else {
-			if(token.equals(generatedToken) ) {
-				user.get().setPassword(newPassword);
+			if(dto.getToken().equals(generatedToken) ) {
+				user.get().setPassword(dto.getNewPassword());
 				userRepo.save(user.get());
 				return user.get();
 			}

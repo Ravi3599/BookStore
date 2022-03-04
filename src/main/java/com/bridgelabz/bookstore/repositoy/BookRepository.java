@@ -10,13 +10,13 @@ import com.bridgelabz.bookstore.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-	@Query(value="select * from book where bookname =:bookName",nativeQuery=true)
+	@Query(value="select * from book where book_name =:bookName",nativeQuery=true)
 	public Optional<Book> findByBookName(String bookName);
 
-	@Query(value="select * from book ORDER BY bookName ASC",nativeQuery = true)
+	@Query(value="select * from book ORDER BY book_name",nativeQuery = true)
 	public List<Book> sortBooksAsc();
 	
-	@Query(value="select * from book ORDER BY bookName DESC",nativeQuery = true)
+	@Query(value="select * from book ORDER BY book_name DESC",nativeQuery = true)
 	public List<Book> sortBooksDesc();
 
 

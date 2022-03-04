@@ -41,7 +41,7 @@ public class BookController {
 		ResponseDTO dto = new ResponseDTO("All records retrieved successfully !",newBook);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
-	@GetMapping("/retrieveBooks/{id}")
+	@GetMapping("/retrieveBook/{id}")
 	public ResponseEntity<ResponseDTO> getBookRecord(@PathVariable Integer id){
 		Book newBook = bookService.getBookRecord(id);
 		ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newBook);

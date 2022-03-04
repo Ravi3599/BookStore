@@ -90,6 +90,7 @@ public class CartService implements ICartService{
 		}
 		else {
 			cart.get().setQuantity(quantity);
+			cartRepo.save(cart.get());
 			return cart.get();
 		}
 	}

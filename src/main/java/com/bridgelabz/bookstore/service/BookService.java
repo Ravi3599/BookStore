@@ -73,12 +73,12 @@ public class BookService implements IBookService {
 	}
 
 	public List<Book> sortRecordDesc(){
-		List<Book> listOfBooks = bookRepo.sortBooksAsc();
+		List<Book> listOfBooks = bookRepo.sortBooksDesc();
 		return listOfBooks;
 	}
 
 	public List<Book> sortRecordAsc(){
-		List<Book> listOfBooks = bookRepo.sortBooksDesc();
+		List<Book> listOfBooks = bookRepo.sortBooksAsc();
 		return listOfBooks;
 	}
 
@@ -89,6 +89,7 @@ public class BookService implements IBookService {
 		}
 		else {
 			book.get().setQuantity(quantity);
+			bookRepo.save(book.get());
 			return book.get();
 		}
 	}

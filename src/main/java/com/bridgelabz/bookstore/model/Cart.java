@@ -36,6 +36,8 @@ public class Cart {
 		this.quantity = quantity;
 		this.book=book;
 		this.user=user;
+	}
+	public Cart() {
+		super();
 	}	
-	
 }

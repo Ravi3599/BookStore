@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.service;
 
 import java.util.List;
 
+import com.bridgelabz.bookstore.dto.ChangePasswordDTO;
 import com.bridgelabz.bookstore.dto.LoginDTO;
 import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.model.User;
@@ -22,6 +23,6 @@ public interface IUserService {
 	
 	public String getToken(String email);
 
-	public User changePassword(String email,String newPassword,String token);
+	public User changePassword(ChangePasswordDTO dto);
 
 }

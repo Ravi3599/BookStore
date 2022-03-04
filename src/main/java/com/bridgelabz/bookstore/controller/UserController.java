@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.bookstore.dto.ChangePasswordDTO;
 import com.bridgelabz.bookstore.dto.LoginDTO;
 import com.bridgelabz.bookstore.dto.ResponseDTO;
 import com.bridgelabz.bookstore.dto.UserDTO;
@@ -29,15 +30,21 @@ public class UserController {
 	private IUserService userService;
 	
 	@GetMapping("/login")
-	public ResponseEntity<ResponseDTO> userLogin(@RequestBody LoginDTO logindto){
+	public ResponseEntity<ResponseDTO> userLogin(@Valid @RequestBody LoginDTO logindto){
 		User newUser = userService.userLogin(logindto);
 		ResponseDTO dto = new ResponseDTO("User logged in successfully !",newUser);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
-	@PutMapping("/forgotpassword")
-	public ResponseEntity<ResponseDTO> forgotPassword(@RequestParam String email,@RequestParam String newPassword,@RequestParam String token){
-		User newUser = userService.changePassword(email,newPassword,token);
+	@PutMapping("/changepassword")
+	public ResponseEntity<ResponseDTO> forgotPassword(@Valid @RequestBody ChangePasswordDTO passwordDTO){
+		User newUser = userService.changePassword(passwordDTO);
 		ResponseDTO dto = new ResponseDTO("Password Resetted successfully !",newUser);
+		return new ResponseEntity(dto,HttpStatus.OK);
+	}
+	@GetMapping("/getToken/{email}")
+	public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
+		String generatedToken = userService.getToken(email);
+		ResponseDTO dto = new ResponseDTO("Token for mail id sent on mail successfully !",generatedToken);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
 	@PostMapping("/register")
@@ -70,10 +77,5 @@ public class UserController {
 		ResponseDTO dto = new ResponseDTO("Record for particular email retrieved successfully !",newUser);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
-	@GetMapping("/getToken/{email}")
-	public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
-		String generatedToken = userService.getToken(email);
-		ResponseDTO dto = new ResponseDTO("Token for mail id sent on mail successfully !",generatedToken);
-		return new ResponseEntity(dto,HttpStatus.OK);
-	}
+	
 }
