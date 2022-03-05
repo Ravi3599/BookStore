@@ -11,7 +11,7 @@ import com.bridgelabz.bookstore.model.Book;
 //Ability to provide CRUD operations and create table for given entity 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-	@Query(value="select * from book where book_name =:bookName",nativeQuery=true)
+	@Query(value="select * from book where book_name LIKE :bookName%",nativeQuery=true)
 	public Optional<Book> findByBookName(String bookName);
 
 	@Query(value="select * from book ORDER BY book_name",nativeQuery = true)
