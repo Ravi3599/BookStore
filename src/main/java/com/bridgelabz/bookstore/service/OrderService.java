@@ -34,6 +34,8 @@ public class OrderService implements IOrderService {
 			if(orderdto.getQuantity() < book.get().getQuantity()) {
 				Order newOrder = new Order(book.get().getPrice(),orderdto.getQuantity(),orderdto.getAddress(),book.get(),user.get(),orderdto.isCancel());
 				orderRepo.save(newOrder);
+				book.get().setQuantity(book.get().getQuantity() - orderdto.getQuantity());
+				bookRepo.save(book.get());
 				log.info("Order record inserted successfully");
 				return newOrder;
 			}else {
@@ -74,6 +76,8 @@ public class OrderService implements IOrderService {
 					Order newOrder = new Order(id,book.get().getPrice(),dto.getQuantity(),dto.getAddress(),book.get(),user.get(),dto.isCancel());
 					orderRepo.save(newOrder);
 					log.info("Order record updated successfully for id "+id);
+					book.get().setQuantity(book.get().getQuantity() -(dto.getQuantity() -order.get().getQuantity()));
+					bookRepo.save(book.get());
 					return newOrder;
 				}else {
 					throw new BookStoreException("Requested quantity is not available");
@@ -88,10 +92,13 @@ public class OrderService implements IOrderService {
 
 	public Order deleteOrderRecord(Integer id) {
 		Optional<Order> order = orderRepo.findById(id);
+		Optional<Book>  book = bookRepo.findById(order.get().getBook().getBookID());
 		if(order.isEmpty()) {
 			throw new BookStoreException("Order Record doesn't exists");
 		}
 		else {
+			book.get().setQuantity(book.get().getQuantity() + order.get().getQuantity());
+			bookRepo.save(book.get());
 			orderRepo.deleteById(id);
 			log.info("Order record deleted successfully for id "+id);
 			return order.get();
