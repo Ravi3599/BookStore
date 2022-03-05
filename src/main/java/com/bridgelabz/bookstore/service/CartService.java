@@ -35,6 +35,8 @@ public class CartService implements ICartService{
 			Cart newCart = new Cart(cartdto.getQuantity(),book.get(),user.get());
 			cartRepo.save(newCart);
 			log.info("Cart record inserted successfully");
+			book.get().setQuantity(book.get().getQuantity() -cartdto.getQuantity());
+			bookRepo.save(book.get());
 			return newCart;
 		}
 		else {
@@ -71,6 +73,8 @@ public class CartService implements ICartService{
 				Cart newCart = new Cart(id,dto.getQuantity(),book.get(),user.get());
 				cartRepo.save(newCart);
 				log.info("Cart record updated successfully for id "+id);
+				book.get().setQuantity(book.get().getQuantity() - dto.getQuantity());
+				bookRepo.save(book.get());
 				return newCart;
 			}
 			else {
@@ -92,6 +96,7 @@ public class CartService implements ICartService{
 	}
 
 	public Cart updateQuantity(Integer id, Integer quantity) {
+		Optional<Book>  book = bookRepo.findById(id);
 		Optional<Cart> cart = cartRepo.findById(id);
 		if(cart.isEmpty()) {
 			throw new BookStoreException("Cart Record doesn't exists");
@@ -100,6 +105,8 @@ public class CartService implements ICartService{
 			cart.get().setQuantity(quantity);
 			cartRepo.save(cart.get());
 			log.info("Quantity in cart record updated successfully");
+			book.get().setQuantity(book.get().getQuantity() - quantity);
+			bookRepo.save(book.get());
 			return cart.get();
 		}
 	}
