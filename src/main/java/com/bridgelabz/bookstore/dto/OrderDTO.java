@@ -6,6 +6,8 @@ import com.bridgelabz.bookstore.model.Book;
 import com.bridgelabz.bookstore.model.User;
 
 import lombok.Data;
+
+//Data transfer object of Order Model
 @Data
 public class OrderDTO {
 	

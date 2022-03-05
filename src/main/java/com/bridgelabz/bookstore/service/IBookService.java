@@ -6,6 +6,7 @@ import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.Book;
 import com.bridgelabz.bookstore.model.User;
 
+//Interface to achieve abstraction
 public interface IBookService {
 
 	public Book insertBook(BookDTO bookdto);

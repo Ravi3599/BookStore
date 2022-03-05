@@ -15,25 +15,28 @@ import com.bridgelabz.bookstore.repositoy.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+//Ability to provide service to controllers api calls
 @Service
 @Slf4j
 public class BookService implements IBookService {
+	//Autowired BookRepository to inject its dependency here
 	@Autowired
 	private BookRepository bookRepo;
 	
+	//Ability to serve to controller's insert api call
 	public Book insertBook(BookDTO bookdto) {
 		Book newBook = new Book(bookdto);
 		bookRepo.save(newBook);
 		log.info("Book record inserted successfully");
 		return newBook;
 	}
-
+	//Ability to serve to controller's retrieving all records api call
 	public List<Book> getAllBookRecords(){
 		List<Book> 	bookList =bookRepo.findAll();
 		log.info("All book records retrieved successfully");
 		return bookList;
 	}
-
+	//Ability to serve to controller's retrieving all records api call
 	public Book getBookRecord(Integer id) {
 		Optional<Book> book = bookRepo.findById(id);
 		if(book.isEmpty()) {
@@ -44,6 +47,7 @@ public class BookService implements IBookService {
 			return book.get();
 		}
 	}
+	//Ability to serve to controller's update record by id api call
 	public Book updateBookRecord(Integer id,BookDTO dto) {
 		Optional<Book> book = bookRepo.findById(id);
 		if(book.isEmpty()) {
@@ -57,7 +61,7 @@ public class BookService implements IBookService {
 		}
 		
 	}
-
+	//Ability to serve to controller's retrieve record by book name api call
 	public Book getRecordByBookName(String bookName) {
 		Optional<Book> book = bookRepo.findByBookName(bookName);
 		if(book.isEmpty()) {
@@ -68,7 +72,7 @@ public class BookService implements IBookService {
 			return book.get();
 		}
 	}
-
+	//Ability to serve to controller's delete record api call
 	public Book deleteBookRecord(Integer id) {
 		Optional<Book> book = bookRepo.findById(id);
 		if(book.isEmpty()) {
@@ -80,19 +84,19 @@ public class BookService implements IBookService {
 			return book.get();
 		}
 	}
-
+	//Ability to serve to controller's sort all records in descending order api call
 	public List<Book> sortRecordDesc(){
 		List<Book> listOfBooks = bookRepo.sortBooksDesc();
 		log.info("Book records sorted in descending order by bookName successfully");
 		return listOfBooks;
 	}
-
+	//Ability to serve to controller's sort all records in ascending order api call
 	public List<Book> sortRecordAsc(){
 		List<Book> listOfBooks = bookRepo.sortBooksAsc();
 		log.info("Book records sorted in ascending order by bookName successfully");
 		return listOfBooks;
 	}
-
+	//Ability to serve to controller's update book quantity api call
 	public Book updateQuantity(Integer id, Integer quantity) {
 		Optional<Book> book = bookRepo.findById(id);
 		if(book.isEmpty()) {

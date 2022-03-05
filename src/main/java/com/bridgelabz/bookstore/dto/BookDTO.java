@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
+//Data transfer object of Book Model
 @Data
 public class BookDTO {
 	@NotEmpty(message="Please enter book name")

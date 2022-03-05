@@ -5,6 +5,7 @@ import java.util.List;
 import com.bridgelabz.bookstore.dto.CartDTO;
 import com.bridgelabz.bookstore.model.Cart;
 
+//Interface to achieve abstraction
 public interface ICartService {
 
 	public Cart insertCart(CartDTO cartdto);

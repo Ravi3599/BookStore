@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
+//Data transfer object of User Model
 @Data
 public class UserDTO {
 	@NotEmpty(message="First name cant be empty")

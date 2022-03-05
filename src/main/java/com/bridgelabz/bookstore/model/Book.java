@@ -8,6 +8,7 @@ import com.bridgelabz.bookstore.dto.BookDTO;
 
 import lombok.Data;
 
+//Book Model with fields
 @Entity
 @Data
 public class Book {

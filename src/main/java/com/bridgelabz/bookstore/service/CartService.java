@@ -17,10 +17,12 @@ import com.bridgelabz.bookstore.repositoy.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+//Ability to provide service to controller
 @Service
 @Slf4j
 public class CartService implements ICartService{
 	
+	//Autowired to inject its dependency here
 	@Autowired
 	private CartRepository cartRepo;
 	@Autowired
@@ -28,6 +30,7 @@ public class CartService implements ICartService{
 	@Autowired
 	private UserRepository userRepo;
 	
+	//Ability to serve to controller's insert cart details api call
 	public Cart insertCart(CartDTO cartdto) {
 		Optional<Book>  book = bookRepo.findById(cartdto.getBookID());
 		Optional<User> user = userRepo.findById(cartdto.getUserID());
@@ -47,13 +50,13 @@ public class CartService implements ICartService{
 			throw new BookStoreException("Book or User doesn't exists");
 		}
 	}
-
+	//Ability to serve to controller's retrieve all cart records api call
 	public List<Cart> getAllCartRecords(){
 		List<Cart> 	cartList = cartRepo.findAll();
 		log.info("All cart records retrieved successfully");
 		return cartList;
 	}
-
+	//Ability to serve to controller's retrieve cart record by id api call
 	public Cart getCartRecord(Integer id) {
 		Optional<Cart> cart = cartRepo.findById(id);
 		if(cart.isEmpty()) {
@@ -64,7 +67,7 @@ public class CartService implements ICartService{
 			return cart.get();
 		}
 	}
-
+	//Ability to serve to controller's update cart record by id api call
 	public Cart updateCartRecord(Integer id,CartDTO dto) {
 		Optional<Cart> cart = cartRepo.findById(id);
 		Optional<Book>  book = bookRepo.findById(dto.getBookID());
@@ -91,7 +94,7 @@ public class CartService implements ICartService{
 			}
 		}
 	}
-
+	//Ability to serve to controller's delete cart record by id api call
 	public Cart deleteCartRecord(Integer id) {
 		Optional<Cart> cart = cartRepo.findById(id);
 		Optional<Book>  book = bookRepo.findById(cart.get().getBook().getBookID());
@@ -106,7 +109,7 @@ public class CartService implements ICartService{
 			return cart.get();
 		}
 	}
-
+	//Ability to serve to controller's update quantity of books in cart api call
 	public Cart updateQuantity(Integer id, Integer quantity) {
 		Optional<Cart> cart = cartRepo.findById(id);
 		Optional<Book>  book = bookRepo.findById(cart.get().getBook().getBookID());

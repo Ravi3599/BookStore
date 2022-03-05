@@ -5,6 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+//Ability to send mail in subject and body format
 @Component
 public class EmailSenderService {
 

@@ -7,6 +7,7 @@ import com.bridgelabz.bookstore.dto.LoginDTO;
 import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.model.User;
 
+//Interface to achieve abstraction
 public interface IUserService {
 
 	public User registerUser(UserDTO userdto);

@@ -10,6 +10,7 @@ import com.bridgelabz.bookstore.dto.UserDTO;
 
 import lombok.Data;
 
+//User Model with fields
 @Entity
 @Data
 @Table(name="UserDetails")

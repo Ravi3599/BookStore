@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
+//Data transfer object of Cart Model
 @Data
 public class CartDTO {
 	private Integer userID;

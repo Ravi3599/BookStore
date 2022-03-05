@@ -18,6 +18,7 @@ import com.bridgelabz.bookstore.repositoy.OrderRepository;
 
 import lombok.Data;
 
+//Order Model with fields
 @Entity
 @Data
 @Table(name="OrderDetails")

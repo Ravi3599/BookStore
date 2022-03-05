@@ -10,6 +10,7 @@ import com.bridgelabz.bookstore.dto.CartDTO;
 
 import lombok.Data;
 
+//Cart Model with fields
 @Entity
 @Data
 public class Cart {

@@ -25,37 +25,44 @@ import com.bridgelabz.bookstore.model.Order;
 import com.bridgelabz.bookstore.service.IBookService;
 import com.bridgelabz.bookstore.service.IOrderService;
 
+//Controller to make api calls
 @RestController
 @RequestMapping("/orderdetails")
 public class OrderController {
+	//Autowired IOrderService dependency to inject its dependecy here
 	@Autowired
 	private IOrderService orderService;
 	
+	//Ability to call api to insert order record
 	@PostMapping("/insert")
 	public ResponseEntity<ResponseDTO> insertOrder(@Valid @RequestBody OrderDTO orderdto){
 		Order newOrder = orderService.insertOrder(orderdto);
 		ResponseDTO dto = new ResponseDTO("User registered successfully !",newOrder);
 		return new ResponseEntity(dto,HttpStatus.CREATED);
 	}
+	//Ability to call api retrieve all order records
 	@GetMapping("/retrieveAllOrders")
 	public ResponseEntity<ResponseDTO> getAllOrderRecords(){
 		List<Order> newOrder = orderService.getAllOrderRecords();
 		ResponseDTO dto = new ResponseDTO("All records retrieved successfully !",newOrder);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
+	//Ability to call api to retrieve order records by id
 	@GetMapping("/retrieveOrder/{id}")
 	public ResponseEntity<ResponseDTO> getBookRecord(@PathVariable Integer id){
 		Order newOrder = orderService.getOrderRecord(id);
 		ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newOrder);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
+	//Ability to call api to update order record by id
 	@PutMapping("/updateOrder/{id}")
 	public ResponseEntity<ResponseDTO> updateBookRecord(@PathVariable Integer id,@Valid @RequestBody OrderDTO orderdto){
 		Order newOrder = orderService.updateOrderRecord(id,orderdto);
 		ResponseDTO dto = new ResponseDTO("Record updated successfully !",newOrder);
 		return new ResponseEntity(dto,HttpStatus.ACCEPTED);
 	}
-	@DeleteMapping("/deleteBook/{id}")
+	//Ability to call api to delete order record by id
+	@DeleteMapping("/deleteOrder/{id}")
 	public ResponseEntity<ResponseDTO> deleteOrderRecord(@PathVariable Integer id){
 		Order newOrder = orderService.deleteOrderRecord(id);
 		ResponseDTO dto = new ResponseDTO("Record deleted successfully !",newOrder);

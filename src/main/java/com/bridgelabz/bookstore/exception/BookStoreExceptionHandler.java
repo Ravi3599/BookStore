@@ -17,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.bridgelabz.bookstore.dto.ResponseDTO;
 
-
+//Ability to handle exception 
 @ControllerAdvice
 public class BookStoreExceptionHandler  {
 	
@@ -30,6 +30,7 @@ public class BookStoreExceptionHandler  {
 				ResponseDTO responseDTO = new ResponseDTO("Exception while processing REST requests",errMesg);
 				return new ResponseEntity<ResponseDTO>(responseDTO,HttpStatus.BAD_REQUEST);
 		}
+		//Ability to handler User defined BookStoreException
 		@ExceptionHandler(BookStoreException.class)
 		public ResponseEntity<ResponseDTO> handleEmployeeNotFound(BookStoreException exception) {
 			ResponseDTO response = new ResponseDTO("Invalid input", exception.getMessage());

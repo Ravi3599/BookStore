@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
+//Data transfer object to login user
 @Data
 public class LoginDTO {
 	@NotEmpty(message="Please Provide email")

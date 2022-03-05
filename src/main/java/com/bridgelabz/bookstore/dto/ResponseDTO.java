@@ -2,6 +2,7 @@ package com.bridgelabz.bookstore.dto;
 
 import lombok.Data;
 
+//Data transfer object to display output in message with object format
 @Data
 public class ResponseDTO {
 	private String message;
