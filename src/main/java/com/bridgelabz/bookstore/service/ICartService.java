@@ -20,4 +20,15 @@ public interface ICartService {
 
 	public Cart updateQuantity(Integer id, Integer quantity);
 
+	public Cart decreaseQuantity(Integer id);
+
+	public Cart increaseQuantity(Integer id);
+
+	public Cart getCartRecordByBookId(Integer bookID);
+	
+	public List<Cart> getCartRecordByUserId(Integer userID);
+
+	public List<Cart> getCartRecordByUserAndBookId(Integer userID, Integer bookID);
+
+
 }

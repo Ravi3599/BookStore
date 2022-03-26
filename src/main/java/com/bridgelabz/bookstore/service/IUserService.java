@@ -26,4 +26,6 @@ public interface IUserService {
 
 	public User changePassword(ChangePasswordDTO dto);
 
+	public User getRecordByToken(String token);
+
 }

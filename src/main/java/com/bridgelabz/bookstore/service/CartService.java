@@ -1,5 +1,6 @@
 package com.bridgelabz.bookstore.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +131,86 @@ public class CartService implements ICartService{
 			}
 		}
 	}
+	public Cart decreaseQuantity(Integer id) {
+		Optional<Cart> cart = cartRepo.findById(id);
+		Optional<Book>  book = bookRepo.findById(cart.get().getBook().getBookID());
+		if(cart.isEmpty()) {
+			throw new BookStoreException("Cart Record doesn't exists");
+		}
+		else {
+			if(cart.get().getQuantity() < book.get().getQuantity()) {
+				cart.get().setQuantity(cart.get().getQuantity()-1);
+				cartRepo.save(cart.get());
+				log.info("Quantity in cart record updated successfully");
+				book.get().setQuantity(book.get().getQuantity() - ((cart.get().getQuantity()-1) - cart.get().getQuantity()));
+				bookRepo.save(book.get());
+				return cart.get();
+			}
+			else {
+				throw new BookStoreException("Requested quantity is not available");
+			}
+		}
+	}
+	public Cart increaseQuantity(Integer id) {
+		Optional<Cart> cart = cartRepo.findById(id);
+		Optional<Book>  book = bookRepo.findById(cart.get().getBook().getBookID());
+		if(cart.isEmpty()) {
+			throw new BookStoreException("Cart Record doesn't exists");
+		}
+		else {
+			if(cart.get().getQuantity() < book.get().getQuantity()) {
+				cart.get().setQuantity(cart.get().getQuantity()+1);
+				cartRepo.save(cart.get());
+				log.info("Quantity in cart record updated successfully");
+				book.get().setQuantity(book.get().getQuantity() - ((cart.get().getQuantity()+1) - cart.get().getQuantity()));
+				bookRepo.save(book.get());
+				return cart.get();
+			}
+			else {
+				throw new BookStoreException("Requested quantity is not available");
+			}
+		}
+	}
+	//Ability to serve to controller's retrieve cart record by book id api call
+		public Cart getCartRecordByBookId(Integer bookId) {
+			Optional<Cart> cart = cartRepo.findByBookId(bookId);
+			if(cart.isEmpty()) {
+				return null;
+				//throw new BookStoreException("Cart Record doesn't exists");
+			}
+			else {
+				log.info("Cart record retrieved successfully for book id "+bookId);
+				return cart.get();
+			}
+		}
+		//Ability to serve to controller's retrieve cart record by book id api call
+			public List<Cart> getCartRecordByUserId(Integer userId) {
+				List<Cart> cart = cartRepo.findByUserId(userId);
+//				if(cart.isEmpty()) {
+//					//return null;
+//					//throw new BookStoreException("Cart Record doesn't exists");
+//				}
+//				else {
+					log.info("Cart record retrieved successfully for book id "+userId);
+					return cart;
+				//}
+			}
+		@Override
+		public List<Cart> getCartRecordByUserAndBookId(Integer userID, Integer bookID) {
+//			List<Cart> cart = cartRepo.findByUserId(userID);
+//			for(int i=0; i<10;i++) {
+//			if(cart.get(i).getBook().getBookID().equals(bookID) && cart.get(i).getUser().getUserID().equals(userID)) {
+				List<Cart> newCart = cartRepo.findByUserAndBookId(userID,bookID);
+				if(newCart.isEmpty()) {
+					return null;
+				}
+				return newCart;
+			
+//			else {
+//				return null;
+////				throw new BookStoreException("Cart record doesn't exists for given UserId and BookId");
+//			}
+		}
 
 
 }

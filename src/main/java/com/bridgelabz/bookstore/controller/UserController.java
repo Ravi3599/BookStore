@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import com.bridgelabz.bookstore.model.User;
 import com.bridgelabz.bookstore.service.IUserService;
 
 //Controller to make api calls
+@CrossOrigin
 @RestController
 @RequestMapping("/userdetails")
 public class UserController {
@@ -32,7 +34,7 @@ public class UserController {
 	private IUserService userService;
 	
 	//Ability to call api to login user
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<ResponseDTO> userLogin(@Valid @RequestBody LoginDTO logindto){
 		User newUser = userService.userLogin(logindto);
 		ResponseDTO dto = new ResponseDTO("User logged in successfully !",newUser);
@@ -70,6 +72,13 @@ public class UserController {
 	@GetMapping("/retrieve/{id}")
 	public ResponseEntity<ResponseDTO> getRecord(@PathVariable Integer id){
 		User newUser = userService.getRecord(id);
+		ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newUser);
+		return new ResponseEntity(dto,HttpStatus.OK);
+	}
+	//Ability to call api to retrieve user record by token
+	@GetMapping("/retrieveByToken/{token}")
+	public ResponseEntity<ResponseDTO> getRecordByToken(@PathVariable String token){
+		User newUser = userService.getRecordByToken(token);
 		ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newUser);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}

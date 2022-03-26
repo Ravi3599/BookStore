@@ -39,7 +39,7 @@ public class UserService implements IUserService{
 		userRepo.save(newUser);
 		log.info("User got registered");
 		String token = util.createToken(newUser.getUserID());
-		mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
+		mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 		return newUser;
 	}
 	//Ability to serve controller's retrieve all user records api call
@@ -59,6 +59,18 @@ public class UserService implements IUserService{
 			return user.get();
 		}
 	}
+	//Ability to serve controller's retrieve user record by token api call
+	public User getRecordByToken(String token){
+			Integer id = util.decodeToken(token);
+			Optional<User> 	user = userRepo.findById(id);
+			if(user.isEmpty()) {
+				throw new BookStoreException("User Record doesn't exists");
+			}
+			else {
+				log.info("Record retrieved successfully for given token having id "+id);
+				return user.get();
+			}
+		}
 	//Ability to serve controller's update user record by id api call
 	public User updateRecord(Integer id,UserDTO dto) {
 		Optional<User> 	user = userRepo.findById(id);
@@ -70,7 +82,7 @@ public class UserService implements IUserService{
 			userRepo.save(newUser);
 			log.info("User data updated successfully");
 			String token = util.createToken(newUser.getUserID());
-			mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
+			//mailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getFirstName(),"Click here \n http://localhost:8080/userdetails//"+token);
 			return newUser;
 		}
 	}
@@ -102,7 +114,7 @@ public class UserService implements IUserService{
 	public String getToken(String email) {
 		Optional<User> user = userRepo.findByMail(email);
 		String token = util.createToken(user.get().getUserID());
-		mailService.sendEmail(user.get().getEmail(),"Welcome "+user.get().getFirstName(),"Token for changing password is :\n"+token);
+		//mailService.sendEmail("ravirenapurkar@gmail.com","Welcome "+user.get().getFirstName(),"Token for changing password is :\n"+token);
 		log.info("Token sent on mail successfully");
 		return token;
 	}

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.bridgelabz.bookstore.service.IBookService;
 import com.bridgelabz.bookstore.service.IOrderService;
 
 //Controller to make api calls
+@CrossOrigin
 @RestController
 @RequestMapping("/orderdetails")
 public class OrderController {
@@ -37,7 +39,7 @@ public class OrderController {
 	@PostMapping("/insert")
 	public ResponseEntity<ResponseDTO> insertOrder(@Valid @RequestBody OrderDTO orderdto){
 		Order newOrder = orderService.insertOrder(orderdto);
-		ResponseDTO dto = new ResponseDTO("User registered successfully !",newOrder);
+		ResponseDTO dto = new ResponseDTO("Order registered successfully !",newOrder);
 		return new ResponseEntity(dto,HttpStatus.CREATED);
 	}
 	//Ability to call api retrieve all order records

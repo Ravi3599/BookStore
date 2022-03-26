@@ -37,14 +37,14 @@ public class BookService implements IBookService {
 		return bookList;
 	}
 	//Ability to serve to controller's retrieving all records api call
-	public Book getBookRecord(Integer id) {
-		Optional<Book> book = bookRepo.findById(id);
+	public List<Book> getBookRecord(Integer id) {
+		List<Book> book = bookRepo.findByBookId(id);
 		if(book.isEmpty()) {
 			throw new BookStoreException("Book Record doesn't exists");
 		}
 		else {
 			log.info("Book record retrieved successfully for id "+id);
-			return book.get();
+			return book;
 		}
 	}
 	//Ability to serve to controller's update record by id api call
@@ -62,14 +62,14 @@ public class BookService implements IBookService {
 		
 	}
 	//Ability to serve to controller's retrieve record by book name api call
-	public Book getRecordByBookName(String bookName) {
-		Optional<Book> book = bookRepo.findByBookName(bookName);
+	public List<Book> getRecordByBookName(String bookName) {
+		List<Book> book = bookRepo.findByBookName(bookName);
 		if(book.isEmpty()) {
 			throw new BookStoreException("Book doesn't exists");
 		}
 		else {
 			log.info("Book record retrieved successfully for Book Name : "+bookName);
-			return book.get();
+			return book;
 		}
 	}
 	//Ability to serve to controller's delete record api call
@@ -87,13 +87,13 @@ public class BookService implements IBookService {
 	//Ability to serve to controller's sort all records in descending order api call
 	public List<Book> sortRecordDesc(){
 		List<Book> listOfBooks = bookRepo.sortBooksDesc();
-		log.info("Book records sorted in descending order by bookName successfully");
+		log.info("Book records sorted in descending order by price successfully");
 		return listOfBooks;
 	}
 	//Ability to serve to controller's sort all records in ascending order api call
 	public List<Book> sortRecordAsc(){
 		List<Book> listOfBooks = bookRepo.sortBooksAsc();
-		log.info("Book records sorted in ascending order by bookName successfully");
+		log.info("Book records sorted in ascending order by price successfully");
 		return listOfBooks;
 	}
 	//Ability to serve to controller's update book quantity api call

@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstore.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.bridgelabz.bookstore.dto.BookDTO;
 import com.bridgelabz.bookstore.model.Book;
@@ -13,11 +14,11 @@ public interface IBookService {
 
 	public List<Book> getAllBookRecords();
 
-	public Book getBookRecord(Integer id);
+	public List<Book> getBookRecord(Integer id);
 
 	public Book updateBookRecord(Integer id,BookDTO dto);
 
-	public Book getRecordByBookName(String bookName);
+	public List<Book> getRecordByBookName(String bookName);
 
 	public Book deleteBookRecord(Integer id);
 

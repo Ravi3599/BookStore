@@ -1,12 +1,14 @@
 package com.bridgelabz.bookstore.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.bridgelabz.bookstore.model.Book;
 import com.bridgelabz.bookstore.service.IBookService;
 
 //Controller class to make api calls
+@CrossOrigin
 @RestController
 @RequestMapping("/bookdetails")
 public class BookController {
@@ -48,7 +51,7 @@ public class BookController {
 	//Ability to call api to get record by id
 	@GetMapping("/retrieveBook/{id}")
 	public ResponseEntity<ResponseDTO> getBookRecord(@PathVariable Integer id){
-		Book newBook = bookService.getBookRecord(id);
+		List<Book> newBook = bookService.getBookRecord(id);
 		ResponseDTO dto = new ResponseDTO("Record retrieved successfully !",newBook);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
@@ -62,7 +65,7 @@ public class BookController {
 	//Ability to call api to retrieve record by book name
 	@GetMapping("/retrieve/{bookName}")
 	public ResponseEntity<ResponseDTO> getRecordByBookName(@PathVariable String bookName){
-		Book newBook = bookService.getRecordByBookName(bookName);
+		List<Book> newBook = bookService.getRecordByBookName(bookName);
 		ResponseDTO dto = new ResponseDTO("Record for particular book retrieved successfully !",newBook);
 		return new ResponseEntity(dto,HttpStatus.OK);
 	}
